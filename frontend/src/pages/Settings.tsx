@@ -160,7 +160,7 @@ function Settings() {
         </button>
       </div>
 
-      <div className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+      <div className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-indigo-50/50 p-6 shadow-xl shadow-indigo-500/10 transition duration-200 dark:border-slate-700/80 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 dark:shadow-indigo-950/20 sm:p-8">
         {activeTab === 'profile' ? (
           <section id="profile-panel" role="tabpanel" aria-labelledby="profile-tab">
             <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">

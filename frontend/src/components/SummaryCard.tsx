@@ -18,9 +18,9 @@ function SummaryCard({
   subtitle,
 }: SummaryCardProps) {
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
+    <article className="group relative overflow-hidden rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-indigo-50/70 p-6 shadow-lg shadow-indigo-500/10 transition-all duration-250 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/20 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/50 dark:shadow-indigo-950/20 dark:hover:shadow-indigo-500/10">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</h2>
+        <h2 className="text-base font-semibold text-slate-600 dark:text-slate-300">{title}</h2>
         {Icon && (
           <div className={`flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${iconBgClass}`}>
             <Icon className="h-5 w-5" />
@@ -28,7 +28,7 @@ function SummaryCard({
         )}
       </div>
 
-      <p className={`mt-3 text-2xl font-bold tracking-tight ${colorClass}`}>
+      <p className={`mt-3 text-3xl font-bold tracking-tight ${colorClass}`}>
         {amount}
       </p>
 

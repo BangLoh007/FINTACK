@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 import {
   PiggyBank,
   PlusCircle,
@@ -115,7 +116,7 @@ function Budgets() {
       </header>
 
       {/* Add Budget Form */}
-      <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+      <form onSubmit={handleSubmit} className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-indigo-50/40 p-6 shadow-lg shadow-indigo-500/5 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/30 sm:p-8">
         <div className="mb-6 flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
             <PlusCircle className="h-5 w-5" />
@@ -209,7 +210,7 @@ function Budgets() {
       </form>
 
       {/* Budget List */}
-      <section aria-labelledby="budget-list-heading" className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+      <section aria-labelledby="budget-list-heading" className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-violet-50/40 p-6 shadow-lg shadow-violet-500/5 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-violet-950/30 sm:p-8">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
@@ -241,14 +242,18 @@ function Budgets() {
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {budgets.map((budget) => {
+            {budgets.map((budget, index) => {
               const Icon = categoryIcons[budget.category] ?? MoreHorizontal
               const color = categoryColors[budget.category] ?? categoryColors.other
 
               return (
-                <article
+                <motion.article
                   key={budget.id}
-                  className="group relative overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  whileHover={{ y: -3, scale: 1.01 }}
+                  transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.2) }}
+                  className="group relative overflow-hidden rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-indigo-50/40 p-6 shadow-md shadow-indigo-500/5 transition-shadow duration-300 hover:shadow-xl hover:shadow-indigo-500/15 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 dark:hover:shadow-indigo-500/10"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
@@ -342,7 +347,7 @@ function Budgets() {
                       </div>
                     )
                   })()}
-                </article>
+                </motion.article>
               )
             })}
           </div>

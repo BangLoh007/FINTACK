@@ -24,8 +24,8 @@ function Header({ title }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-gray-200 bg-white/95 px-4 backdrop-blur transition-colors sm:px-6 lg:px-8 dark:border-gray-800 dark:bg-gray-900/95">
-      <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h1>
+    <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-white/70 bg-white/75 px-4 shadow-sm shadow-slate-900/5 backdrop-blur-xl transition-colors sm:px-6 lg:px-8 dark:border-slate-800/80 dark:bg-slate-900/70 dark:shadow-black/10">
+      <h1 className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">{title}</h1>
 
       <div className="flex items-center gap-3">
         {logoutError && <p role="alert" className="text-xs text-red-600 dark:text-red-400">{logoutError}</p>}

@@ -18,18 +18,18 @@ function Layout() {
   const { t } = useTranslation()
 
   return (
-    <div className="flex min-h-screen bg-gray-50 text-gray-900 transition-colors duration-200 dark:bg-gray-950 dark:text-gray-100">
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/80 text-slate-900 transition-colors duration-200 dark:from-slate-950 dark:via-slate-950 dark:to-indigo-950/40 dark:text-slate-100">
       <Sidebar />
 
       <div className="min-w-0 flex-1 md:ml-64">
         <Header title={t(pageTitleKeys[pathname] ?? 'common.pageNotFound')} />
 
-        <main className="p-4 sm:p-6 lg:p-8">
+        <main className="p-5 sm:p-8 lg:p-10 xl:p-12">
           <motion.div
             key={pathname}
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
           >
             <Outlet />
           </motion.div>

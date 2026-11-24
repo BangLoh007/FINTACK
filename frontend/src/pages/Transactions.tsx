@@ -321,7 +321,7 @@ function Transactions() {
   return (
     <div className="space-y-8">
       {/* Form Card */}
-      <section className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+      <section className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-indigo-50/40 p-6 shadow-lg shadow-indigo-500/5 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/30 sm:p-8">
         <div className="mb-6 flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
             <PlusCircle className="h-5 w-5" />
@@ -425,7 +425,7 @@ function Transactions() {
       </section>
 
       {/* List Card */}
-      <section className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+      <section className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-blue-50/40 p-6 shadow-lg shadow-blue-500/5 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/30 sm:p-8">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             {t('transactions.recent')} {totalCount > 0 && <span className="text-sm font-normal text-gray-400">({totalCount})</span>}

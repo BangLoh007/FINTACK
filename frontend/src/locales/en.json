@@ -162,7 +162,9 @@
     "alreadyRegistered": "Already registered?",
     "loginLink": "Sign in",
     "loginError": "Could not log in.",
-    "registerError": "Could not create your account."
+    "registerError": "Could not create your account.",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "categories": {
     "food": "Food",

@@ -21,8 +21,8 @@ function Sidebar() {
   const { t } = useTranslation()
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-10 hidden w-64 flex-col border-r border-gray-200 bg-white transition-colors dark:border-gray-800 dark:bg-gray-900 md:flex">
-      <div className="flex h-16 items-center gap-3 border-b border-gray-200 px-6 dark:border-gray-800">
+    <aside className="fixed inset-y-0 left-0 z-10 hidden w-64 flex-col border-r border-white/70 bg-gradient-to-b from-white/85 to-indigo-50/70 shadow-xl shadow-indigo-950/5 backdrop-blur-xl transition-colors dark:border-slate-800/80 dark:from-slate-900/90 dark:to-indigo-950/60 dark:shadow-black/20 md:flex">
+      <div className="flex h-16 items-center gap-3 border-b border-white/70 px-6 dark:border-slate-800/80">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-sm shadow-indigo-200 dark:shadow-none">
           <Wallet className="h-5 w-5" />
         </div>
@@ -40,8 +40,8 @@ function Sidebar() {
             className={({ isActive }) =>
               `group flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium transition-all ${
                 isActive
-                  ? 'bg-indigo-50 text-indigo-700 shadow-xs dark:bg-indigo-950/50 dark:text-indigo-300'
-                  : 'text-gray-600 hover:bg-gray-100/80 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800/80 dark:hover:text-gray-100'
+                ? 'rounded-xl bg-gradient-to-r from-indigo-100 via-indigo-50 to-violet-50 text-indigo-800 shadow-md shadow-indigo-500/15 ring-1 ring-indigo-200/60 dark:from-indigo-500/20 dark:via-indigo-500/10 dark:to-violet-500/10 dark:text-indigo-200 dark:shadow-indigo-500/10 dark:ring-indigo-400/20'
+                  : 'text-slate-600 hover:bg-white/70 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-slate-100'
               }`
             }
           >

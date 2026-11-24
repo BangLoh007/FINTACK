@@ -181,7 +181,7 @@ function Reports() {
 
       {/* Metric Highlights */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <div className="flex items-center justify-between rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900">
+        <div className="flex items-center justify-between rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-emerald-50/50 p-6 shadow-lg shadow-emerald-500/5 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-emerald-950/30">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400">
               <TrendingUp className="h-5 w-5" />
@@ -195,7 +195,7 @@ function Reports() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900">
+        <div className="flex items-center justify-between rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-rose-50/50 p-6 shadow-lg shadow-rose-500/5 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-rose-950/30">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400">
               <TrendingDown className="h-5 w-5" />
@@ -222,7 +222,7 @@ function Reports() {
           <div className="h-80 animate-pulse rounded-2xl bg-gray-100 dark:bg-gray-800" />
         </div>
       ) : totals.income === 0 && totals.expense === 0 ? (
-        <div className="rounded-2xl border border-gray-200/80 bg-white p-8 shadow-xs dark:border-gray-800 dark:bg-gray-900 sm:p-12">
+        <div className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-indigo-50/40 p-8 shadow-lg shadow-indigo-500/5 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/30 sm:p-12">
           <EmptyState
             icon={BarChart3}
             title={t('reports.empty')}
@@ -232,7 +232,7 @@ function Reports() {
       ) : (
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
           {/* Income vs Expense Pie Chart */}
-          <article className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+          <article className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-indigo-50/40 p-6 shadow-lg shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/15 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 sm:p-8">
             <div className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
                 <PieChartIcon className="h-5 w-5" />
@@ -272,7 +272,7 @@ function Reports() {
           </article>
 
           {/* Cashflow Bar Chart */}
-          <article className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+          <article className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-blue-50/40 p-6 shadow-lg shadow-blue-500/10 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/15 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/40 sm:p-8">
             <div className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
                 <BarChart3 className="h-5 w-5" />
@@ -313,7 +313,7 @@ function Reports() {
 
           {/* Expense Breakdown by Category */}
           {categoryData.length > 0 && (
-            <article className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8 xl:col-span-2">
+            <article className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-purple-50/40 p-6 shadow-lg shadow-purple-500/10 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/15 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-purple-950/40 sm:p-8 xl:col-span-2">
               <div className="flex items-center gap-2.5">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 text-purple-600 dark:bg-purple-950/60 dark:text-purple-400">
                   <PieChartIcon className="h-5 w-5" />

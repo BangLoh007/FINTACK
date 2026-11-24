@@ -162,7 +162,9 @@
     "alreadyRegistered": "มีบัญชีอยู่แล้วใช่ไหม?",
     "loginLink": "เข้าสู่ระบบ",
     "loginError": "เข้าสู่ระบบไม่สำเร็จ",
-    "registerError": "สร้างบัญชีไม่สำเร็จ"
+    "registerError": "สร้างบัญชีไม่สำเร็จ",
+    "showPassword": "แสดงรหัสผ่าน",
+    "hidePassword": "ซ่อนรหัสผ่าน"
   },
   "categories": {
     "food": "อาหาร",

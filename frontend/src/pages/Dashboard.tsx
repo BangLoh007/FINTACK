@@ -273,7 +273,7 @@ function Dashboard() {
       )}
 
       {/* Mid Section: Cashflow Trend Chart (Area Chart) */}
-      <section className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+      <section className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-indigo-50/40 p-6 shadow-lg shadow-indigo-500/5 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/30 sm:p-8">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-gray-100">
@@ -353,7 +353,7 @@ function Dashboard() {
       {/* 2-Column Split: Budget Watchlist & Recent Transactions */}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         {/* Budget Watchlist Widget */}
-        <section className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+        <section className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-blue-50/40 p-6 shadow-lg shadow-blue-500/5 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/30 sm:p-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400">
@@ -436,7 +436,7 @@ function Dashboard() {
         </section>
 
         {/* Recent Transactions List */}
-        <section aria-labelledby="recent-transactions-title" className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs transition-colors dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+        <section aria-labelledby="recent-transactions-title" className="rounded-2xl border border-white/80 bg-gradient-to-br from-white via-white to-violet-50/40 p-6 shadow-lg shadow-violet-500/5 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 dark:border-slate-700/70 dark:from-slate-900 dark:via-slate-900 dark:to-violet-950/30 sm:p-8">
           <div className="flex items-center justify-between">
             <h2 id="recent-transactions-title" className="text-lg font-semibold tracking-tight text-gray-900 dark:text-gray-100">
               {t('dashboard.recent')}
