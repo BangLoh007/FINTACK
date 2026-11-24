@@ -19,6 +19,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
+import { useAuth } from '../context/AuthContext'
 import { useBudgets } from '../hooks/useBudgets'
 import { budgetCategories, type BudgetCategory } from '../types/budget'
 
@@ -48,13 +49,14 @@ const categoryColors: Record<BudgetCategory, { bg: string; text: string }> = {
 
 function Budgets() {
   const { t, i18n } = useTranslation()
+  const { isAuthReady } = useAuth()
   const [currentDate] = useState(() => new Date())
   const [amount, setAmount] = useState('')
   const [category, setCategory] = useState<BudgetCategory>('food')
   const [month, setMonth] = useState(String(currentDate.getMonth() + 1))
   const [year, setYear] = useState(String(currentDate.getFullYear()))
   const [formError, setFormError] = useState<string | null>(null)
-  const { budgets, isLoading, isSubmitting, error, addBudget, deleteBudget } = useBudgets()
+  const { budgets, isLoading, isSubmitting, error, addBudget, deleteBudget } = useBudgets(isAuthReady)
 
   const formatAmount = (value: number) =>
     new Intl.NumberFormat(i18n.resolvedLanguage ?? 'en', {

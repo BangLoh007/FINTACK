@@ -11,6 +11,7 @@ const { prismaMock } = vi.hoisted(() => ({
     transaction: {
       findMany: vi.fn(),
       create: vi.fn(),
+      groupBy: vi.fn(),
       deleteMany: vi.fn(),
     },
     budget: {
@@ -61,6 +62,48 @@ describe('budget routes', () => {
     expect(prismaMock.budget.findMany).not.toHaveBeenCalledWith(
       expect.objectContaining({ where: expect.objectContaining({ userId: userB }) }),
     )
+    expect(prismaMock.transaction.groupBy).not.toHaveBeenCalled()
+  })
+
+  it('groups expenses once and maps each total to the matching category and month', async () => {
+    const budgets = [
+      { id: 'budget-food-may', amount: 6000, category: 'FOOD', month: 5, year: 2026, userId: userA },
+      { id: 'budget-health-may', amount: 1500, category: 'HEALTH', month: 5, year: 2026, userId: userA },
+      { id: 'budget-food-apr', amount: 5000, category: 'FOOD', month: 4, year: 2026, userId: userA },
+      { id: 'budget-transport-apr', amount: 2000, category: 'TRANSPORT', month: 4, year: 2026, userId: userA },
+    ]
+    prismaMock.budget.findMany.mockResolvedValue(budgets)
+    prismaMock.transaction.groupBy.mockResolvedValue([
+      { category: 'FOOD', date: new Date(Date.UTC(2026, 3, 8)), _sum: { amount: 1250 } },
+      { category: 'TRANSPORT', date: new Date(Date.UTC(2026, 3, 12)), _sum: { amount: 450 } },
+      { category: 'FOOD', date: new Date(Date.UTC(2026, 4, 3)), _sum: { amount: 800 } },
+    ])
+
+    const response = await request(app)
+      .get('/api/budgets')
+      .set('Cookie', authCookie(userA))
+
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: 'budget-food-may', spent: 800 }),
+      expect.objectContaining({ id: 'budget-food-apr', spent: 1250 }),
+      expect.objectContaining({ id: 'budget-transport-apr', spent: 450 }),
+      expect.objectContaining({ id: 'budget-health-may', spent: 0 }),
+    ]))
+    expect(response.body).toHaveLength(4)
+    expect(prismaMock.transaction.groupBy).toHaveBeenCalledTimes(1)
+    expect(prismaMock.transaction.groupBy).toHaveBeenCalledWith({
+      by: ['category', 'date'],
+      where: {
+        userId: userA,
+        type: 'EXPENSE',
+        date: {
+          gte: new Date(Date.UTC(2026, 3, 1)),
+          lt: new Date(Date.UTC(2026, 5, 1)),
+        },
+      },
+      _sum: { amount: true },
+    })
   })
 
   it('rejects invalid month and year filters', async () => {
@@ -114,6 +157,7 @@ describe('budget routes', () => {
       category: 'food',
       month: 4,
       year: 2026,
+      spent: 0,
     })
     expect(response.body).not.toHaveProperty('userId')
   })

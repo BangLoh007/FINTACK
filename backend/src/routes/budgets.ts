@@ -34,6 +34,10 @@ function monthBounds(month: number, year: number) {
   return { start, end }
 }
 
+function budgetSpendingKey(category: Category, month: number, year: number) {
+  return `${year}-${month}-${category}`
+}
+
 function toBudgetDto(budget: Budget, spent: number) {
   return {
     id: budget.id,
@@ -41,7 +45,7 @@ function toBudgetDto(budget: Budget, spent: number) {
     category: budget.category.toLowerCase(),
     month: budget.month,
     year: budget.year,
-    // spent = total expense transactions for this category/month/year
+    // spent = total expense transactions for this month/year, regardless of category
     spent,
   }
 }
@@ -68,25 +72,37 @@ router.get('/', async (request, response, next) => {
       orderBy: [{ year: 'desc' }, { month: 'desc' }, { category: 'asc' }],
     })
 
-    // For each budget, aggregate the actual expense amount in that category/month/year
-    const budgetsWithSpent = await Promise.all(
-      budgets.map(async (budget) => {
-        const { start, end } = monthBounds(budget.month, budget.year)
+    if (budgets.length === 0) return response.json([])
 
-        const aggregate = await prisma.transaction.aggregate({
-          where: {
-            userId: request.userId!,
-            type: 'EXPENSE',
-            category: budget.category,
-            date: { gte: start, lt: end },
-          },
-          _sum: { amount: true },
-        })
+    const userId = request.userId
+    const budgetMonthBounds = budgets.map((budget) => monthBounds(budget.month, budget.year))
+    const start = new Date(Math.min(...budgetMonthBounds.map((bounds) => bounds.start.getTime())))
+    const end = new Date(Math.max(...budgetMonthBounds.map((bounds) => bounds.end.getTime())))
 
-        const spent = Number(aggregate._sum.amount ?? 0)
-        return toBudgetDto(budget, spent)
-      }),
-    )
+    // Group once by category and transaction date, then collapse dates into budget months.
+    const expenseGroups = await prisma.transaction.groupBy({
+      by: ['category', 'date'],
+      where: {
+        userId,
+        type: 'EXPENSE',
+        date: { gte: start, lt: end },
+      },
+      _sum: { amount: true },
+    })
+
+    const spentByBudgetKey = new Map<string, number>()
+    for (const group of expenseGroups) {
+      const month = group.date.getUTCMonth() + 1
+      const year = group.date.getUTCFullYear()
+      const key = budgetSpendingKey(group.category, month, year)
+      const amount = Number(group._sum.amount ?? 0)
+      spentByBudgetKey.set(key, (spentByBudgetKey.get(key) ?? 0) + amount)
+    }
+
+    const budgetsWithSpent = budgets.map((budget) => {
+      const key = budgetSpendingKey(budget.category, budget.month, budget.year)
+      return toBudgetDto(budget, spentByBudgetKey.get(key) ?? 0)
+    })
 
     return response.json(budgetsWithSpent)
   } catch (error) {

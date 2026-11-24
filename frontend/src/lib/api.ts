@@ -1,4 +1,6 @@
 const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace(/\/+$/, '')
+const NETWORK_ERROR_MESSAGE = 'Cannot connect to server. Please ensure the backend is running.'
+const SERVER_ERROR_MESSAGE = 'Something went wrong on the server. Please try again later.'
 
 type ApiRequestOptions = RequestInit & {
   requiresAuth?: boolean
@@ -37,11 +39,19 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
   if (requestOptions.body !== undefined && !requestHeaders.has('Content-Type')) {
     requestHeaders.set('Content-Type', 'application/json')
   }
-  const response = await fetch(`${API_BASE_URL}${normalizedPath}`, {
-    ...requestOptions,
-    credentials: 'include',
-    headers: requestHeaders,
-  })
+  let response: Response
+  try {
+    response = await fetch(`${API_BASE_URL}${normalizedPath}`, {
+      cache: 'no-store',
+      ...requestOptions,
+      credentials: 'include',
+      headers: requestHeaders,
+    })
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') throw error
+    if (error instanceof TypeError) throw new ApiError(NETWORK_ERROR_MESSAGE, 0)
+    throw error
+  }
 
   const responseText = await response.text()
   let responseBody: unknown
@@ -61,7 +71,10 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
       }
     }
 
-    throw new ApiError(getMessage(responseBody, 'The request failed.'), response.status)
+    const message = response.status >= 500
+      ? SERVER_ERROR_MESSAGE
+      : getMessage(responseBody, 'The request failed.')
+    throw new ApiError(message, response.status)
   }
 
   if (response.status === 204 || !responseText) return undefined as T

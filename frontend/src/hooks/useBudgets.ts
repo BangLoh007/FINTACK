@@ -28,7 +28,7 @@ function sortBudgets(budgets: Budget[]) {
   )
 }
 
-export function useBudgets() {
+export function useBudgets(isAuthReady = true) {
   const [budgets, setBudgets] = useState<Budget[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -40,19 +40,30 @@ export function useBudgets() {
 
     try {
       const data = await apiRequest<unknown>('/budgets', { signal })
-      setBudgets(sortBudgets(parseBudgets(data)))
+      if (!signal?.aborted) {
+        setBudgets(sortBudgets(parseBudgets(data)))
+      }
     } catch (requestError) {
-      if (!signal?.aborted) setError(getErrorMessage(requestError))
+      if (!signal?.aborted) {
+        setError(getErrorMessage(requestError))
+      }
     } finally {
-      if (!signal?.aborted) setIsLoading(false)
+      if (!signal?.aborted) {
+        setIsLoading(false)
+      }
     }
   }, [])
 
   useEffect(() => {
+    if (!isAuthReady) {
+      setIsLoading(true)
+      return
+    }
+
     const controller = new AbortController()
     void loadBudgets(controller.signal)
     return () => controller.abort()
-  }, [loadBudgets])
+  }, [loadBudgets, isAuthReady])
 
   const addBudget = useCallback(async (input: CreateBudgetInput) => {
     setIsSubmitting(true)

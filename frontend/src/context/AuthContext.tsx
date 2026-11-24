@@ -11,6 +11,7 @@ type Credentials = {
 type AuthContextValue = {
   user: AuthUser | null
   isLoading: boolean
+  isAuthReady: boolean
   login: (credentials: Credentials) => Promise<void>
   register: (credentials: Credentials) => Promise<void>
   logout: () => Promise<void>
@@ -44,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         })
         setUser(response.user)
       } catch {
-        setUser(null)
+        if (!controller.signal.aborted) setUser(null)
       } finally {
         if (!controller.signal.aborted) setIsLoading(false)
       }
@@ -81,9 +82,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     navigate('/login', { replace: true })
   }, [navigate])
 
+  const isAuthReady = !isLoading && user !== null
+
   const value = useMemo(
-    () => ({ user, isLoading, login, register, logout }),
-    [user, isLoading, login, register, logout],
+    () => ({ user, isLoading, isAuthReady, login, register, logout }),
+    [user, isLoading, isAuthReady, login, register, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

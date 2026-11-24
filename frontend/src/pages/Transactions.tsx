@@ -25,6 +25,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
+import { useAuth } from '../context/AuthContext'
 import { apiRequest } from '../lib/api'
 
 type TransactionType = 'income' | 'expense'
@@ -151,6 +152,7 @@ function formatAmount(amount: number, language: string) {
 
 function Transactions() {
   const { t, i18n } = useTranslation()
+  const { isAuthReady } = useAuth()
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
@@ -171,6 +173,11 @@ function Transactions() {
   const [formError, setFormError] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!isAuthReady) {
+      setIsLoading(true)
+      return
+    }
+
     const controller = new AbortController()
 
     async function loadTransactions() {
@@ -188,11 +195,13 @@ function Transactions() {
         const data = await apiRequest<unknown>(`/transactions?${params.toString()}`, {
           signal: controller.signal,
         })
-        const parsed = parseTransactions(data)
-        setTransactions(parsed.transactions)
-        if (parsed.pagination) {
-          setTotalPages(parsed.pagination.totalPages)
-          setTotalCount(parsed.pagination.totalCount)
+        if (!controller.signal.aborted) {
+          const parsed = parseTransactions(data)
+          setTransactions(parsed.transactions)
+          if (parsed.pagination) {
+            setTotalPages(parsed.pagination.totalPages)
+            setTotalCount(parsed.pagination.totalCount)
+          }
         }
       } catch (requestError) {
         if (!controller.signal.aborted) {
@@ -212,7 +221,7 @@ function Transactions() {
     void loadTransactions()
 
     return () => controller.abort()
-  }, [t, currentPage, searchQuery, filterType, filterCategory])
+  }, [t, currentPage, searchQuery, filterType, filterCategory, isAuthReady])
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
